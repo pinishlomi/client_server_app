@@ -1,0 +1,75 @@
+import json
+import tkinter as tk
+from tkinter import messagebox
+
+from hotel.client.ServerConnection import ServerConnection
+from hotel.client.screens.Callback import Callback
+from hotel.client.screens.LandingPage import LandingPage
+from hotel.client.screens.Login import Login
+from hotel.client.screens.Register import Register
+from hotel.private_data import HOST, PORT, SECRET_KEY
+
+
+class ClientApp(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.callback = None
+        self.server_address = (HOST, PORT)
+        self.title("Hotel Wolff")
+        self.geometry("500x500")
+        self.current_screen = None
+        self.server_connection = ServerConnection(HOST, PORT, SECRET_KEY)
+
+    def show_app(self):
+        self.callback = Callback(self.callback_func)
+        self.current_screen = LandingPage(self.callback)
+        self.mainloop()
+
+    def callback_func(self):
+        print(self.callback)
+        if self.callback.type == 'sign_in':
+            self.destroy_current()
+            self.current_screen = Login(self.callback)
+
+        elif self.callback.type == 'sign_up':
+            self.destroy_current()
+            self.current_screen = Register(self.callback)
+
+        elif self.callback.type == 'login':
+            response = self.login()
+            if response['status'] == 'success':
+                messagebox.showinfo("Login Successful", response['message'])
+                # Optionally, you can switch to another screen here
+            else:
+                messagebox.showerror("Login Failed", response['message'])
+        elif self.callback.type == 'register':
+            response = self.join_now()
+            if response['status'] == 'success':
+                messagebox.showinfo("Login Successful", response['message'])
+                # Optionally, you can switch to another screen here
+            else:
+                messagebox.showerror("Login Failed", response['message'])
+
+    def login(self):
+        print(self.callback)
+        username = self.callback.data['username']
+        password = self.callback.data['password']
+        data = {'data': {'type': 'login', 'username': username, 'password': password}}
+        data['digest'] = self.server_connection.authenticate(json.dumps(data['data']))
+        return self.server_connection.send_data(data)
+
+    def join_now(self):
+        print(self.callback)
+        username = self.callback.data['username']
+        password = self.callback.data['password']
+        data = {'data': {'type': 'register', 'username': username, 'password': password}}
+        data['digest'] = self.server_connection.authenticate(json.dumps(data['data']))
+        return self.server_connection.send_data(data)
+
+    def destroy_current(self):
+        if self.current_screen:
+            self.current_screen.destroy()
+
+
+if __name__ == '__main__':
+    ClientApp().show_app()
