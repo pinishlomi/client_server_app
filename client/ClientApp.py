@@ -7,6 +7,7 @@ from hotel.client.screens.Callback import Callback
 from hotel.client.screens.LandingPage import LandingPage
 from hotel.client.screens.Login import Login
 from hotel.client.screens.Register import Register
+from hotel.client.screens.constants import WIDTH, HEIGHT, TITLE
 from hotel.private_data import HOST, PORT, SECRET_KEY
 
 
@@ -15,10 +16,17 @@ class ClientApp(tk.Tk):
         super().__init__()
         self.callback = None
         self.server_address = (HOST, PORT)
-        self.title("Hotel Wolff")
-        self.geometry("500x500")
+        self.title(TITLE)
+        self.geometry(f'{WIDTH}x{HEIGHT}')
         self.current_screen = None
+        self.protocol("WM_DELETE_WINDOW", self.on_close)
         self.server_connection = ServerConnection(HOST, PORT, SECRET_KEY)
+
+    def on_close(self):
+        if isinstance(self.current_screen, LandingPage):
+            self.destroy()
+        else:
+            self.show_app()
 
     def show_app(self):
         self.callback = Callback(self.callback_func)
