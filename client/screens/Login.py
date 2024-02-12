@@ -1,5 +1,5 @@
 import tkinter as tk
-from hotel.client.screens import Callback
+from client_server_app.client.screens import Callback
 
 
 class Login(tk.Frame):

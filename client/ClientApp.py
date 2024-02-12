@@ -2,13 +2,13 @@ import json
 import tkinter as tk
 from tkinter import messagebox
 
-from hotel.client.ServerConnection import ServerConnection
-from hotel.client.screens.Callback import Callback
-from hotel.client.screens.LandingPage import LandingPage
-from hotel.client.screens.Login import Login
-from hotel.client.screens.Register import Register
-from hotel.client.screens.constants import WIDTH, HEIGHT, TITLE
-from hotel.private_data import HOST, PORT, SECRET_KEY
+from client_server_app.client.ServerConnection import ServerConnection
+from client_server_app.client.screens.Callback import Callback
+from client_server_app.client.screens.LandingPage import LandingPage
+from client_server_app.client.screens.Login import Login
+from client_server_app.client.screens.Register import Register
+from client_server_app.constants import WIDTH, HEIGHT, TITLE
+from client_server_app.private_data import HOST, PORT, SECRET_KEY
 
 
 class ClientApp(tk.Tk):

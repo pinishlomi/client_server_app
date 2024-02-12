@@ -1,22 +1,8 @@
 import socket
-import hmac
-import hashlib
 import json
 
-from hotel.private_data import SECRET_KEY, HOST, PORT
-
-
-def authenticate(data, client_digest):
-    # credential = {'username': username, 'password': password}
-    # data_json = json.dumps(credential).encode()
-    # data['data'] = credential
-    # digest = hmac.new(b'your_secret_key', data_json, hashlib.sha256).hexdigest()
-
-    server_digest = hmac.new(SECRET_KEY, data, hashlib.sha256).hexdigest()
-    print('data: ' , data)
-    print('server_digest: ' , server_digest)
-    print('client_digest: ', client_digest)
-    return hmac.compare_digest(server_digest, client_digest)
+from client_server_app.private_data import SECRET_KEY, HOST, PORT
+from client_server_app.server.auth import authenticate
 
 
 def handle_client_connection(conn, addr):
