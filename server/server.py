@@ -24,7 +24,8 @@ def handle_client_connection(conn, addr):
                 response = {'status': 'success', 'message': 'Data received and authenticated. you are register'}
             else:
                 response = {'status': 'success',
-                            'message': 'Data received and authenticated, but request type is unknown...'}
+                            'message': 'Data received and authenticated, but request type is unknown...',
+                            'token': 'jwt...'}
 
         else:
             response = {'status': 'error', 'message': 'Authentication failed.'}
