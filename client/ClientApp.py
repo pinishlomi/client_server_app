@@ -24,6 +24,7 @@ class ClientApp(tk.Tk):
 
     def on_close(self):
         if isinstance(self.current_screen, LandingPage):
+            print('sdvds')
             self.destroy()
         else:
             self.show_app()
