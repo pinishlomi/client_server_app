@@ -9,6 +9,7 @@ from client_server_app.client.screens.Login import Login
 from client_server_app.client.screens.Register import Register
 from client_server_app.constants import WIDTH, HEIGHT, TITLE
 from client_server_app.private_data import HOST, PORT, SECRET_KEY
+# from client_server_app.assets.images import sign_up.png
 
 
 class ClientApp(tk.Tk):
@@ -17,7 +18,7 @@ class ClientApp(tk.Tk):
         self.callback = None
         self.server_address = (HOST, PORT)
         self.title(TITLE)
-        self.geometry(f'{WIDTH}x{HEIGHT}')
+        self.geometry(f'{self.winfo_screenwidth()}x{self.winfo_screenheight()}')
         self.current_screen = None
         self.protocol("WM_DELETE_WINDOW", self.on_close)
         self.server_connection = ServerConnection(HOST, PORT, SECRET_KEY)

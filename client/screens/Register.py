@@ -1,3 +1,4 @@
+import pathlib, os
 import tkinter as tk
 from client_server_app.client.screens import Callback
 from PIL import Image, ImageTk
@@ -9,22 +10,25 @@ class Register(tk.Frame):
         self.callback = callback
         self.password_entry = None
         self.username_entry = None
+        self.canvas = None
+        self.background_photo = None
         self.show()
 
     def show(self):
-        # Load background image
-        # background_image = Image.open("sign_up.png")  # Replace with your image file path
-        # background_image = background_image.resize((600, 600))
-        # self.background_photo = ImageTk.PhotoImage(background_image)
-        #
-        # # Create a Canvas widget to place the background image
-        # self.canvas = tk.Canvas(self, width=600, height=600)
-        # self.canvas.pack(fill="both", expand=True)
-        # self.canvas.create_image(0, 0, image=self.background_photo, anchor="nw")
-
         self.grid(row=0, column=0, sticky="nsew")
 
-        tk.Label(self, text="ImageImageImageImageImage", font=("Helvetica", 16)).grid(row=0, column=0, columnspan=8, pady=10, padx=10)
+        # Load your image
+        # Get the absolute path of the image file relative to the project's root folder
+        project_dir = pathlib.Path(__file__).parent.parent.parent.resolve()
+        image_path = f'{project_dir}/assets/images/sign_up.png'
+        original_image = Image.open(image_path)
+        # Resize the image to fit 2/3 of the width
+        image_width = int(self.winfo_screenwidth() * 2 / 3)
+        image_height = int(original_image.size[1] * image_width / original_image.size[0])
+        resized_image = original_image.resize((image_width, image_height))
+        # Convert image to Tkinter format
+        self.background_photo = ImageTk.PhotoImage(resized_image)
+        tk.Label(self, image=self.background_photo).grid(row=0, column=0, columnspan=8, rowspan=10, pady=10, padx=10)
         tk.Label(self, text="Register", font=("Helvetica", 16)).grid(row=0, column=9, columnspan=4, pady=10)
 
         tk.Label(self, text="Username:").grid(row=1, column=9, sticky="e")
