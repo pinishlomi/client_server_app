@@ -19,12 +19,17 @@ class ClientApp(tk.Tk):
         self.__server_address = (HOST, PORT)
         self.title(TITLE)
         self.geometry(f'{self.winfo_screenwidth()}x{self.winfo_screenheight()}')
+        print(f'main : {self.winfo_screenwidth()}x{self.winfo_screenheight()}')
         self.__current_screen = None
         self.protocol("WM_DELETE_WINDOW", self.on_close)
         self.__server_connection = ServerConnection(HOST, PORT, SECRET_KEY)
         self.__token = None
         self.__username = None
         self.__user_authenticate = False
+
+    def clear_all_items(self):
+        for widget in self.pack_slaves():
+            widget.pack_forget()
 
     def on_close(self):
         if isinstance(self.__current_screen, LandingPage):
@@ -37,21 +42,25 @@ class ClientApp(tk.Tk):
 
     def show_app(self):
         self.__callback = Callback(self.callback_func)
-        if self.__user_authenticate:
-            self.__current_screen = MessagePage(self.__callback)
-        else:
-            self.__current_screen = LandingPage(self.__callback)
+        self.clear_all_items()
+        self.__current_screen = LandingPage(self, self.__callback)
+        # if self.__user_authenticate:
+        #     self.__current_screen = MessagePage(self.__callback)
+        # else:
+        #     self.__current_screen = LandingPage(self, self.__callback)
         self.mainloop()
 
     def callback_func(self):
         print(self.__callback)
         if self.__callback.type == 'sign_in':
             self.destroy_current()
-            self.__current_screen = Login(self.__callback)
+            self.clear_all_items()
+            self.__current_screen = Login(self, self.__callback)
 
         elif self.__callback.type == 'sign_up':
             self.destroy_current()
-            self.__current_screen = Register(self.__callback)
+            self.clear_all_items()
+            self.__current_screen = Register(self, self.__callback)
 
         elif self.__callback.type == 'login':
             response = self.login()
