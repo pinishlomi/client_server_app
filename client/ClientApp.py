@@ -7,6 +7,7 @@ from client_server_app.client.screens.Callback import Callback
 from client_server_app.client.screens.LandingPage import LandingPage
 from client_server_app.client.screens.Login import Login
 from client_server_app.client.screens.MessagePage import MessagePage
+from client_server_app.client.screens.Order import Order
 from client_server_app.client.screens.Register import Register
 from client_server_app.constants import WIDTH, HEIGHT, TITLE
 from client_server_app.private_data import HOST, PORT, SECRET_KEY
@@ -43,11 +44,10 @@ class ClientApp(tk.Tk):
     def show_app(self):
         self.__callback = Callback(self.callback_func)
         self.clear_all_items()
-        self.__current_screen = LandingPage(self, self.__callback)
-        # if self.__user_authenticate:
-        #     self.__current_screen = MessagePage(self.__callback)
-        # else:
-        #     self.__current_screen = LandingPage(self, self.__callback)
+        if self.__user_authenticate:
+            self.__current_screen = Order(self, self.__callback)
+        else:
+            self.__current_screen = LandingPage(self, self.__callback)
         self.mainloop()
 
     def callback_func(self):
