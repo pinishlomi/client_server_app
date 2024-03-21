@@ -3,6 +3,8 @@ import tkinter as tk
 from client_server_app.client.screens import Callback
 from PIL import Image, ImageTk
 import customtkinter as ctk
+import re
+import tkinter.messagebox as tkmb
 
 
 class Register():
@@ -48,26 +50,59 @@ class Register():
         label = ctk.CTkLabel(master=register_frame, font=title_font, text='Sign up', padx=10, pady=5)
         label.pack(pady=12, padx=10)
 
-        username_lbl = ctk.CTkLabel(master=register_frame,font=filed_font, text='Username:')
+        username_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Username:')
         username_lbl.pack(anchor=tk.W, padx=10)
-        self.username_entry = ctk.CTkEntry(master=register_frame,font=filed_font)
+        self.username_entry = ctk.CTkEntry(master=register_frame, font=filed_font)
         self.username_entry.pack(anchor=tk.W, padx=10)
 
         space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=5)
 
-        password_lbl = ctk.CTkLabel(master=register_frame,font=filed_font, text='Password:')
+        password_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Password:')
         password_lbl.pack(anchor=tk.W, padx=10)
-        self.password_entry = ctk.CTkEntry(master=register_frame,font=filed_font, show="*")
+        self.password_entry = ctk.CTkEntry(master=register_frame, font=filed_font, show="*")
         self.password_entry.pack(anchor=tk.W, padx=10)
 
         sign_on_btn_frame = ctk.CTkFrame(master=register_frame, fg_color='beige')
         sign_on_btn_frame.pack(pady=60, padx=40, fill='both', expand=True)
         sign_on_btn = ctk.CTkButton(master=sign_on_btn_frame, font=title_font, text='Sign Up',
-                               fg_color='#e9e9e9', text_color='black', command=self.join_now)
+                                    fg_color='#e9e9e9', text_color='black', command=self.join_now)
         sign_on_btn.pack(pady=40, padx=10)
 
     def join_now(self):
+        if not self.validate_username():
+            tkmb.showerror(title="Username Error",
+                           message="Username not match email format")
+            return
+
+        if not self.validate_password():
+            tkmb.showerror(title="Password Error",
+                           message="password not meets the following criteria:\n"
+                                   "At least 8 characters long.\n"
+                                   "Contains at least one uppercase letter, one lowercase letter, and one digit.")
+            return
+
+        username = self.username_entry.get()
+        password = self.password_entry.get()
         self.callback.type = 'register'
-        self.callback.data = {'username': self.username_entry.get(), 'password': self.password_entry.get()}
+        self.callback.data = {'username': username, 'password': password}
         self.callback.function()
+
+    def validate_username(self):
+        # Validate email format using a regular expression
+        pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+        if re.match(pattern, self.username_entry.get()):
+            return True
+        else:
+            return False
+
+    def validate_password(self):
+        # Check password criteria
+        password = self.password_entry.get()
+        if (len(password) >= 8
+                and any(c.isupper() for c in password)
+                and any(c.islower() for c in password)
+                and any(c.isdigit() for c in password)):
+            return True
+        else:
+            return False

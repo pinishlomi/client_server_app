@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from customtkinter import CustomStyle
+# from customtkinter import CustomStyle
 from tkinter import messagebox
 
 
@@ -108,8 +108,10 @@ def main():
     root.configure(bg="beige")
 
     # CustomStyle object to customize the appearance
-    style = CustomStyle()
-    style.set_theme("light")  # Set theme to light
+    # style = CustomStyle()
+    # style.set_theme("light")  # Set theme to light
+    style = ttk.Style()
+    style.theme_use('default')
 
     # Customize the Entry widget appearance
     style.configure(

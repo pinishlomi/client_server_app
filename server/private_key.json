@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "hotelwolff",
+  "private_key_id": "dd4c7fd4e9e6909cf145c6a5dce43a6754b7830d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDJoDcmusiYfn/H\nPEtJZ0wjPG16E5B4HvS8aKVr/eGoZBkbJyXvuP6W5HLSH8l6xjCWAK1Doxpp93lY\n41TndNa1mHkk1fceAt/C0TCZnc1V5rfpoOuT597aPdUXx+qv7/uaWI8YjJjuSvyD\n+7ZYWqAlcfE9lFKlCQNMiHCC8kVVq1fY2mY+E7zemoeEekewMBL/LWrpzPB/mNq0\ncWiXeLSs8qRb3zLhkhPeCO5196vXrXlCrBPxXcHD8Ak8L1//kLDZefog5KCEQ7+o\nIhsnpraG+A6IDmL4Uu4qDrZWIxSkDejH+Tc0bo1zE94K/8pJy2m+Ld/3akZ3b7uZ\nkEOqDE9dAgMBAAECggEAEzD6zubsfQddZjto9x2r85am3P3LvINFzEExravGtN6C\nPUFmrQCwyvAHtdRsuxDuQvjhhRSbSQbTOBC7XiSS40oWDdmH4gVoAwUiWRzaFJkX\nXFeC1Ns3LRLBm7fdsM1o53ISfMW1MMlWa8Gjw5kssSO9UJ0zmJ3ZAInkG7Kvws2W\n31B6zhUkyTumv+/nLkrM9xkPRvZsfQvUQ04aMK3K8/XHXKFbmjhjdZOgAxnk/hkL\nCOOt2YtNAo4o1CPFSBANFPFyFd0Qnf1EW3u/7rr8z/5gLVNh56wxRNdk3oWEgkCR\nIf43ThK6033bBSNYqxQAl2O6+3PCKZHam4c9sNb7CQKBgQD7lUFWREH4JSc+w6/O\n/vgLTP0+RlqTvAKktmH0uZHYnM1aiheTc0Eg+Gy4pNBQPFRylt3n8WFJzIvUfKb5\n6YfuYojov4TlKgZZBQLZJwSlMPaO6K216c+xQiT/azUmyeSMeKaIXFdRUz/JFkc+\nu5nOUu8yy7hPWJ324vYFez7YPwKBgQDNKm06YwuD8yIHMKLIN6mn6mkJ6zHfNQFE\nuEeIRaYIjyv254A0qlC3OloSk29rCaiYR48wIr1pCL5vQdjwzdVVA67fA1kQV3Q2\n61iSazbPojUJR2iWRyRmUArNvR0+30nOdPD1FzT9+4WtQEye/Yuo55REoyt0ugcH\njL/Izv2RYwKBgEPuaVYB2E5IufAYpsAd2Jw0jazjElIR0iTnmkuaT+dNb6Wi4/rM\nhCmC6thwqE8B+0t1sTWP19U1hgw6HFwe0rVrpcwy6o92aYBf+gTopDh2oBy2dzFH\nkO0sDxFowVFX8n57lXv8cxdigzao7VPjFATCIBR3La0/IGgpoISaYr3BAoGBALXE\no/c5rwcdToWOOnomjqHdFWibPpkhrdkDZyS9iCdHKU1btwNx7YcYJJsWkn0DlqIr\nrBmafbNj8sxBS4G06w+h7rlYjvzibm0Fv3ghkvMMI+7vnCKgLwiSW7ABn7qHOy21\n/5E1GVb4E2v2bqvhuG1RltPkuGh3NCklMvknIhI/AoGAKNwJJuj7865FLWGLnpT6\nojgKeSm2NmyWwPR8ry1QGyfVdswkJsy691Z/HAMtp7teX6JAea0cE5+Ca13z5C9j\ncYOJbavS8OL9PoWznPItrp8mbqOjvbB2R+mHyBzJVIC0+F6PvH5Py56zGK3m2r3Y\nJQib69mK06C2PwwMbQVkTCQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-nxfoq@hotelwolff.iam.gserviceaccount.com",
+  "client_id": "117447679563722019877",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-nxfoq%40hotelwolff.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

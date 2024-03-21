@@ -52,9 +52,10 @@ class Server:
                                                'are logged in'}
                     else:
                         response = {'status': 'failed', 'message': 'Data received but not authenticated'}
-                elif action == 'message':
+                elif action == 'order':
                     verify = self.__auth.verify_request(data)
                     if verify['status'] == 'success':
+                        # TODO update db with order details
                         response = {'status': 'success', 'message': 'Server got your message...'}
                     else:
                         response = {'status': 'failed', 'message': verify['message']}

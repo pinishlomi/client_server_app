@@ -33,11 +33,12 @@ class ClientApp(tk.Tk):
             widget.pack_forget()
 
     def on_close(self):
-        if isinstance(self.__current_screen, LandingPage):
+        if (isinstance(self.__current_screen, LandingPage) or
+                isinstance(self.__current_screen, Order)):
             self.destroy()
-        if isinstance(self.__current_screen, MessagePage):
-            self.__callback.data = {'user_authenticate': self.__user_authenticate}
-            self.__current_screen = LandingPage(self.__callback)
+        # if isinstance(self.__current_screen, MessagePage):
+        #     self.__callback.data = {'user_authenticate': self.__user_authenticate}
+        #     self.__current_screen = LandingPage(self.__callback)
         else:
             self.show_app()
 
@@ -68,7 +69,6 @@ class ClientApp(tk.Tk):
                 self.__token = response['token']
                 self.__username = self.__callback.data['username']
                 self.__user_authenticate = True
-                # messagebox.showinfo("Login Successful", response['message'])
                 self.show_app()
             else:
                 messagebox.showerror("Login Failed", response['message'])
@@ -78,18 +78,16 @@ class ClientApp(tk.Tk):
                 self.__token = response['token']
                 self.__username = self.__callback.data['username']
                 self.__user_authenticate = True
-                # messagebox.showinfo("Login Successful", response['message'])
                 self.show_app()
             else:
                 messagebox.showerror("Login Failed", response['message'])
-        elif self.__callback.type == 'message':
-            response = self.send_message()
+        elif self.__callback.type == 'order' and self.__user_authenticate:
+            response = self.send_order()
             if response['status'] == 'success':
-                if isinstance(self.__current_screen, MessagePage):
-                    self.__current_screen.add_message('Server', response['message'])
+                pass
+                # TODO  do something like move to payment page
             else:
-                messagebox.showerror("Send Message Failed", response['message'])
-                self.__user_authenticate = False
+                messagebox.showerror("Something went wrong with your order, Please try again", response['message'])
                 self.show_app()
 
     def login(self):
@@ -106,9 +104,10 @@ class ClientApp(tk.Tk):
         data['digest'] = self.__server_connection.authenticate(json.dumps(data['data']))
         return self.__server_connection.send_data(data)
 
-    def send_message(self):
-        data = {'data': {'type': 'message', 'username': self.__username, 'token': self.__token},
-                'message': 'Try to send message to server'}
+    def send_order(self):
+        order_details = 'some order details'
+        data = {'data': {'type': 'order', 'username': self.__username, 'token': self.__token},
+                'order': order_details}
         data['digest'] = self.__server_connection.authenticate(json.dumps(data['data']))
         return self.__server_connection.send_data(data)
 
