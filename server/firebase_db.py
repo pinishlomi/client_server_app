@@ -57,6 +57,14 @@ class FirebaseDB:
         except Exception as e:
             print(f"Error adding user '{username}' token: {e}")
 
+    def add_order(self, key, order_details):
+        try:
+            date = order_details['date']
+            order_ref = self.db.child('orders').child(key).child(date)
+            order_ref.set(order_details)
+            print(f"User order added successfully to the database.")
+        except Exception as e:
+            print(f"Error adding user '{username}': {e}")
 
 if __name__ == '__main__':
     FirebaseDB()

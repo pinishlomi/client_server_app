@@ -1,7 +1,7 @@
 WIDTH = 600
 HEIGHT = 600
 TITLE = 'My Client Server APP'
-TOKEN_EXPIRATION_TIME = 1
+TOKEN_EXPIRATION_TIME = 30
 FIREBASE_CONFIG = {
   'apiKey': "AIzaSyAsACsxWsHVpk4rWtWDmwh2KHVUIA3yPo8",
   'authDomain': "hotelwolff.firebaseapp.com",

@@ -66,3 +66,6 @@ class Auth:
     def verify_request(self, data):
         client_token = self.__db.get_user_token(data['data']['username'])
         return self.__verify_token(client_token)
+
+    def add_order(self, username, order):
+        return self.__db.add_order(username, order)

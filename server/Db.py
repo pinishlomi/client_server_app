@@ -43,3 +43,11 @@ class Db:
         users = self.get_users()
         key = clean_email_filter(username)
         return key in users and users[key]['token']
+
+    def add_order(self, username, order):
+        users = self.get_users()
+        key = clean_email_filter(username)
+        if key not in users:
+            return False
+        self.db.add_order(key, order)
+        return True

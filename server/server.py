@@ -38,6 +38,13 @@ class Server:
                         username = data['data']['username']
                         token = self.__auth.generate_token(username)
                         self.__auth.add_user_token(username, token)
+                        #  TODO remove this
+                        order = {
+                            'date' : '24032024',
+                            'view': 'pool',
+                            'children':4
+                        }
+                        self.__auth.add_order(username, order)
                         response = {'status': 'success', 'token': token,
                                     'message': 'Data received and authenticated. you '
                                                'are logged in'}
