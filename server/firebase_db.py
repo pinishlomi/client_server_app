@@ -59,7 +59,7 @@ class FirebaseDB:
 
     def add_order(self, key, order_details):
         try:
-            date = order_details['date']
+            date = order_details['start_date']
             order_ref = self.db.child('orders').child(key).child(date)
             order_ref.set(order_details)
             print(f"User order added successfully to the database.")

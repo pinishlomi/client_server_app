@@ -105,7 +105,7 @@ class ClientApp(tk.Tk):
         return self.__server_connection.send_data(data)
 
     def send_order(self):
-        order_details = 'some order details'
+        order_details = self.__callback.data['order']
         data = {'data': {'type': 'order', 'username': self.__username, 'token': self.__token},
                 'order': order_details}
         data['digest'] = self.__server_connection.authenticate(json.dumps(data['data']))

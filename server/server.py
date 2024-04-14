@@ -39,12 +39,12 @@ class Server:
                         token = self.__auth.generate_token(username)
                         self.__auth.add_user_token(username, token)
                         #  TODO remove this
-                        order = {
-                            'date' : '24032024',
-                            'view': 'pool',
-                            'children':4
-                        }
-                        self.__auth.add_order(username, order)
+                        # order = {
+                        #     'date' : '24032024',
+                        #     'view': 'pool',
+                        #     'children':4
+                        # }
+                        # self.__auth.add_order(username, order)
                         response = {'status': 'success', 'token': token,
                                     'message': 'Data received and authenticated. you '
                                                'are logged in'}
@@ -62,6 +62,10 @@ class Server:
                 elif action == 'order':
                     verify = self.__auth.verify_request(data)
                     if verify['status'] == 'success':
+                        username = data['data']['username']
+                        res = self.__auth.add_order(username, data['order'])
+                        print('res order', res)
+
                         # TODO update db with order details
                         response = {'status': 'success', 'message': 'Server got your message...'}
                     else:
