@@ -1,12 +1,13 @@
 import pathlib
 import tkinter as tk
 from datetime import datetime, date, timedelta
-from tkinter import ttk
-from tkcalendar import Calendar, DateEntry
+from tkinter import ttk, Listbox, MULTIPLE
+from tkcalendar import DateEntry
 
 from client_server_app.client.screens import Callback
 from PIL import Image, ImageTk
 import customtkinter as ctk
+
 def on_start_date(event):
     print(f"Selected date: ")
 
@@ -17,11 +18,9 @@ class Order(tk.Frame):
         self.callback = callback
         self.start_date_entry = None
         self.end_date_entry = None
-        self.num_adults_entry = None
         self.num_adults_var = None
-        self.num_kids = None
-        self.num_rooms = None
-        self.view = None
+        self.num_kids_var = None
+        self.num_rooms_var = None
         self.selected_meals = None
         self.canvas = None
         self.background_photo = None
@@ -30,21 +29,18 @@ class Order(tk.Frame):
     def show(self):
         self.root.configure(bg='beige')
         print(f'Login : {self.root.winfo_screenwidth()}x{self.root.winfo_screenheight()}')
+
         # Load your image
-        # Get the absolute path of the image file relative to the project's root folder
         project_dir = pathlib.Path(__file__).parent.parent.parent.resolve()
         image_path = f'{project_dir}/assets/images/sign_up.png'
         original_image = Image.open(image_path)
-        # Resize the image to fit 2/3 of the width
         image_width = int(self.root.winfo_screenwidth())
         image_height = int(original_image.size[1] * image_width / original_image.size[0])
         resized_image = original_image.resize((image_width, int(self.root.winfo_screenheight() * 1 / 4)))
-        # resized_image = original_image.resize((image_width, self.winfo_screenheight()))
-        # Convert image to Tkinter format
         self.background_photo = ImageTk.PhotoImage(resized_image)
+
         image_frame = ctk.CTkFrame(master=self.root, fg_color='beige')
         image_frame.pack(fill='both', side=tk.TOP)
-        # image_frame.configure(bg=)
         image = tk.Label(image_frame, image=self.background_photo, background='beige')
         image.pack(side=tk.LEFT)
 
@@ -53,62 +49,75 @@ class Order(tk.Frame):
         title_font = ('Abril Fatface', 28)
         filed_font = ('Abril Fatface', 20)
 
-        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=10)
 
-        label = ctk.CTkLabel(master=main_frame, font=title_font, text='Reservation Details', padx=10, pady=5)
+        label = ctk.CTkLabel(master=main_frame, font=title_font, text='Reservation Details', padx=10, pady=5, text_color='black')
         label.pack(padx=10)
 
-        start_date_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Start Date:')
+        start_date_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Start Date:', text_color='black')
         start_date_lbl.pack(anchor=tk.W, padx=10)
         self.start_date_entry = DateEntry(main_frame, date_pattern="dd-mm-yyyy")
         self.start_date_entry.pack(anchor=tk.W, padx=10)
         self.start_date_entry.bind("<<DateEntrySelected>>", self.on_start_date)
 
-        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
 
-        end_date_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='End Date:')
+        end_date_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='End Date:', text_color='black')
         end_date_lbl.pack(anchor=tk.W, padx=10)
         self.end_date_entry = DateEntry(main_frame, date_pattern="dd-mm-yyyy")
         self.end_date_entry.pack(anchor=tk.W, padx=10)
         self.end_date_entry.set_date(self.start_date_entry.get_date() + timedelta(days=7))
-        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
 
-        num_adults_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Number Of Adults:')
+        num_adults_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Number Of Adults:', text_color='black')
         num_adults_lbl.pack(anchor=tk.W, padx=10)
-        # self.num_adults_var.set('1')
-        GENDER_OPTIONS = ['1', '2', '3', '4', '5', '6']
-        num_adults_combo = ttk.Combobox(main_frame, values=GENDER_OPTIONS, width=5,
-                                        textvariable=self.num_adults_var)
+        self.num_adults_var = tk.StringVar()
+        GENDER_OPTIONS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        num_adults_combo = ttk.Combobox(main_frame, values=GENDER_OPTIONS, width=5, textvariable=self.num_adults_var)
         num_adults_combo.current(0)
         num_adults_combo.pack(anchor=tk.W, padx=10)
 
-        self.num_adults_entry = ctk.CTkEntry(master=main_frame, font=filed_font, show="*")
-        self.num_adults_entry.pack(anchor=tk.W, padx=10)
-
-        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
 
-        num_kids_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Number Of Kids:')
+        num_kids_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Number Of Kids:', text_color='black')
         num_kids_lbl.pack(anchor=tk.W, padx=10)
-        self.num_kids = ctk.CTkEntry(master=main_frame, font=filed_font, show="*")
-        self.num_kids.pack(anchor=tk.W, padx=10)
+        self.num_kids_var = tk.StringVar()
+        num_kids_combo = ttk.Combobox(main_frame, values=GENDER_OPTIONS, width=5, textvariable=self.num_kids_var)
+        num_kids_combo.current(0)
+        num_kids_combo.pack(anchor=tk.W, padx=10)
 
-        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
 
-        num_rooms_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Number Of Rooms:')
+        num_rooms_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Number Of Rooms:', text_color='black')
         num_rooms_lbl.pack(anchor=tk.W, padx=10)
-        self.num_rooms = ctk.CTkEntry(master=main_frame, font=filed_font, show="*")
-        self.num_rooms.pack(anchor=tk.W, padx=10)
+        self.num_rooms_var = tk.StringVar()
+        NUM_ROOMS_OPTIONS = ['1', '2', '3', '4', '5']
+        num_rooms_combo = ttk.Combobox(main_frame, values=NUM_ROOMS_OPTIONS, width=5, textvariable=self.num_rooms_var)
+        num_rooms_combo.current(0)
+        num_rooms_combo.pack(anchor=tk.W, padx=10)
 
-        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='', text_color='black')
+        space.pack(anchor=tk.W, pady=5)
+
+        meals_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Select Meals:', text_color='black')
+        meals_lbl.pack(anchor=tk.W, padx=10)
+
+        self.meals_listbox = Listbox(main_frame, selectmode=MULTIPLE, height=3)
+        meal_options = ['breakfast', 'lunch', 'dinner']
+        for meal in meal_options:
+            self.meals_listbox.insert(tk.END, meal)
+        self.meals_listbox.pack(anchor=tk.W, padx=10)
+
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
 
         order_btn = ctk.CTkButton(master=main_frame, font=title_font, text='Submit Reservation',
-                                    fg_color='#e9e9e9', text_color='black', command=self.order)
+                                  fg_color='#e9e9e9', text_color='black', command=self.order)
         order_btn.pack(pady=0, padx=10)
 
     def on_start_date(self, event):
@@ -122,17 +131,25 @@ class Order(tk.Frame):
             print("ok")
 
     def order(self):
-        pass
-        # TODO validate data
-        # TODO create new data object
+        # Collect selected meals
+        selected_meals_indices = self.meals_listbox.curselection()
+        self.selected_meals = [self.meals_listbox.get(index) for index in selected_meals_indices]
+
+        # Print the selected meals for testing
+        print(f'Selected meals: {self.selected_meals}')
+
+        # Add code to handle the reservation with selected meals
         data = {
             'start_date': self.start_date_entry.get_date(),
-
+            'end_date': self.end_date_entry.get_date(),
+            'num_adults': self.num_adults_var.get(),
+            'num_kids': self.num_kids_var.get(),
+            'num_rooms': self.num_rooms_var.get(),
+            'meals': self.selected_meals,
         }
-        # self.callback.type = 'order'
-        # self.callback.data = {'order': data}
-        # self.callback.function()
-
+        self.callback.type = 'order'
+        self.callback.data = {'order': data}
+        self.callback.function()
 
 def main():
     root = tk.Tk()
@@ -140,7 +157,6 @@ def main():
     root.geometry(f'{root.winfo_screenwidth()}x{root.winfo_screenheight()}')
     Order(root, None)
     root.mainloop()
-
 
 if __name__ == '__main__':
     main()
