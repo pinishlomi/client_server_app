@@ -64,7 +64,7 @@ class FirebaseDB:
             order_ref.set(order_details)
             print(f"User order added successfully to the database.")
         except Exception as e:
-            print(f"Error adding user '{username}': {e}")
+            print(f"Error adding order: {e}")
 
 if __name__ == '__main__':
     FirebaseDB()

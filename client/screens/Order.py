@@ -1,11 +1,14 @@
 import pathlib
 import tkinter as tk
+from datetime import datetime, date, timedelta
 from tkinter import ttk
+from tkcalendar import Calendar, DateEntry
 
 from client_server_app.client.screens import Callback
 from PIL import Image, ImageTk
 import customtkinter as ctk
-
+def on_start_date(event):
+    print(f"Selected date: ")
 
 class Order(tk.Frame):
     def __init__(self, root, callback: Callback):
@@ -45,72 +48,89 @@ class Order(tk.Frame):
         image = tk.Label(image_frame, image=self.background_photo, background='beige')
         image.pack(side=tk.LEFT)
 
-        register_frame = ctk.CTkFrame(master=self.root, fg_color='beige')
-        register_frame.pack(padx=40, fill='both', expand=True, side=tk.LEFT)
+        main_frame = ctk.CTkFrame(master=self.root, fg_color='beige')
+        main_frame.pack(padx=40, fill='both', expand=True, side=tk.LEFT)
         title_font = ('Abril Fatface', 28)
         filed_font = ('Abril Fatface', 20)
 
-        space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=10)
 
-        label = ctk.CTkLabel(master=register_frame, font=title_font, text='Reservation Details', padx=10, pady=5)
+        label = ctk.CTkLabel(master=main_frame, font=title_font, text='Reservation Details', padx=10, pady=5)
         label.pack(padx=10)
 
-        start_date_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Start Date:')
+        start_date_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Start Date:')
         start_date_lbl.pack(anchor=tk.W, padx=10)
-        self.start_date_entry = ctk.CTkEntry(master=register_frame, font=filed_font)
+        self.start_date_entry = DateEntry(main_frame, date_pattern="dd-mm-yyyy")
         self.start_date_entry.pack(anchor=tk.W, padx=10)
+        self.start_date_entry.bind("<<DateEntrySelected>>", self.on_start_date)
 
-        space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=5)
 
-        end_date_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='End Date:')
+        end_date_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='End Date:')
         end_date_lbl.pack(anchor=tk.W, padx=10)
-        self.end_date_entry = ctk.CTkEntry(master=register_frame, font=filed_font, show="*")
+        self.end_date_entry = DateEntry(main_frame, date_pattern="dd-mm-yyyy")
         self.end_date_entry.pack(anchor=tk.W, padx=10)
-
-        space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
+        self.end_date_entry.set_date(self.start_date_entry.get_date() + timedelta(days=7))
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=5)
 
-        num_adults_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Number Of Adults:')
+        num_adults_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Number Of Adults:')
         num_adults_lbl.pack(anchor=tk.W, padx=10)
         # self.num_adults_var.set('1')
         GENDER_OPTIONS = ['1', '2', '3', '4', '5', '6']
-        num_adults_combo = ttk.Combobox(register_frame, values=GENDER_OPTIONS, width=5,
+        num_adults_combo = ttk.Combobox(main_frame, values=GENDER_OPTIONS, width=5,
                                         textvariable=self.num_adults_var)
         num_adults_combo.current(0)
         num_adults_combo.pack(anchor=tk.W, padx=10)
 
-        self.num_adults_entry = ctk.CTkEntry(master=register_frame, font=filed_font, show="*")
+        self.num_adults_entry = ctk.CTkEntry(master=main_frame, font=filed_font, show="*")
         self.num_adults_entry.pack(anchor=tk.W, padx=10)
 
-        space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=5)
 
-        num_kids_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Number Of Kids:')
+        num_kids_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Number Of Kids:')
         num_kids_lbl.pack(anchor=tk.W, padx=10)
-        self.num_kids = ctk.CTkEntry(master=register_frame, font=filed_font, show="*")
+        self.num_kids = ctk.CTkEntry(master=main_frame, font=filed_font, show="*")
         self.num_kids.pack(anchor=tk.W, padx=10)
 
-        space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=5)
 
-        num_rooms_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Number Of Rooms:')
+        num_rooms_lbl = ctk.CTkLabel(master=main_frame, font=filed_font, text='Number Of Rooms:')
         num_rooms_lbl.pack(anchor=tk.W, padx=10)
-        self.num_rooms = ctk.CTkEntry(master=register_frame, font=filed_font, show="*")
+        self.num_rooms = ctk.CTkEntry(master=main_frame, font=filed_font, show="*")
         self.num_rooms.pack(anchor=tk.W, padx=10)
 
-        space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=main_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=5)
 
-        sign_on_btn = ctk.CTkButton(master=register_frame, font=title_font, text='Submit Reservation',
+        order_btn = ctk.CTkButton(master=main_frame, font=title_font, text='Submit Reservation',
                                     fg_color='#e9e9e9', text_color='black', command=self.order)
-        sign_on_btn.pack(pady=40, padx=10)
+        order_btn.pack(pady=0, padx=10)
+
+    def on_start_date(self, event):
+        selected_date = self.start_date_entry.get_date()
+        selected_end_date = self.end_date_entry.get_date()
+        print(f"Selected date: {selected_date}, {selected_end_date}{type(selected_date)}")
+        if selected_date > selected_end_date:
+            print("error")
+            self.end_date_entry.set_date(selected_date)
+        else:
+            print("ok")
 
     def order(self):
         pass
+        # TODO validate data
+        # TODO create new data object
+        data = {
+            'start_date': self.start_date_entry.get_date(),
+
+        }
         # self.callback.type = 'order'
-        # self.callback.data = {'order': 'stammm'}
+        # self.callback.data = {'order': data}
         # self.callback.function()
 
 
