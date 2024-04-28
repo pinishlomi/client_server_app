@@ -37,31 +37,31 @@ class Login(tk.Frame):
         image = tk.Label(image_frame, image=self.background_photo, background='beige')
         image.pack(side=tk.LEFT)
 
-        register_frame = ctk.CTkFrame(master=self.root, fg_color='beige')
-        register_frame.pack(pady=40, padx=40, fill='both', expand=True, side=tk.LEFT)
+        login_frame = ctk.CTkFrame(master=self.root, fg_color='beige')
+        login_frame.pack(pady=40, padx=40, fill='both', expand=True, side=tk.LEFT)
         title_font = ('Abril Fatface', 28)
         filed_font = ('Abril Fatface', 20)
 
-        space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=login_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=10)
 
-        label = ctk.CTkLabel(master=register_frame, font=title_font, text='Login', padx=10, pady=5)
+        label = ctk.CTkLabel(master=login_frame, font=title_font, text='Login', padx=10, pady=5)
         label.pack(pady=12, padx=10)
 
-        username_lbl = ctk.CTkLabel(master=register_frame,font=filed_font, text='Username:')
+        username_lbl = ctk.CTkLabel(master=login_frame,font=filed_font, text='Username:')
         username_lbl.pack(anchor=tk.W, padx=10)
-        self.username_entry = ctk.CTkEntry(master=register_frame,font=filed_font)
+        self.username_entry = ctk.CTkEntry(master=login_frame,font=filed_font)
         self.username_entry.pack(anchor=tk.W, padx=10)
 
-        space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
+        space = ctk.CTkLabel(master=login_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=5)
 
-        password_lbl = ctk.CTkLabel(master=register_frame,font=filed_font, text='Password:')
+        password_lbl = ctk.CTkLabel(master=login_frame,font=filed_font, text='Password:')
         password_lbl.pack(anchor=tk.W, padx=10)
-        self.password_entry = ctk.CTkEntry(master=register_frame,font=filed_font, show="*")
+        self.password_entry = ctk.CTkEntry(master=login_frame,font=filed_font, show="*")
         self.password_entry.pack(anchor=tk.W, padx=10)
 
-        sign_on_btn_frame = ctk.CTkFrame(master=register_frame, fg_color='beige')
+        sign_on_btn_frame = ctk.CTkFrame(master=login_frame, fg_color='beige')
         sign_on_btn_frame.pack(pady=60, padx=40, fill='both', expand=True)
         sign_on_btn = ctk.CTkButton(master=sign_on_btn_frame, font=title_font, text='Sign In',
                                fg_color='#e9e9e9', text_color='black', command=self.login)

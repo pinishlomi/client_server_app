@@ -10,6 +10,7 @@ class LandingPage(tk.Frame):
         super().__init__()
         self.callback = callback
         self.root = root
+        root.resizable(False, False)
         self.show()
 
     def show(self):
@@ -23,7 +24,7 @@ class LandingPage(tk.Frame):
             # Load your image
             # Get the absolute path of the image file relative to the project's root folder
             project_dir = pathlib.Path(__file__).parent.parent.parent.resolve()
-            image_path = f'{project_dir}/assets/images/sign_up.png'
+            image_path = f'{project_dir}/assets/images/landing_background.jpeg'
             original_image = Image.open(image_path)
             # Resize the image to fit 2/3 of the width
             image_width = int(self.root.winfo_screenwidth() * 2 / 3)
