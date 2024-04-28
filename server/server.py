@@ -66,7 +66,6 @@ class Server:
                         res = self.__auth.add_order(username, data['order'])
                         print('res order', res)
 
-                        # TODO update db with order details
                         response = {'status': 'success', 'message': 'Server got your message...'}
                     else:
                         response = {'status': 'failed', 'message': verify['message']}

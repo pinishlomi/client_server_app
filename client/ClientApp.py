@@ -14,6 +14,10 @@ from client_server_app.private_data import HOST, PORT, SECRET_KEY
 
 
 class ClientApp(tk.Tk):
+    '''
+    this class responsible for all the actions that trigger from ui components.
+    each ui component trigger callback function for each event.
+    '''
     def __init__(self):
         super().__init__()
         self.__callback = None
@@ -84,8 +88,14 @@ class ClientApp(tk.Tk):
         elif self.__callback.type == 'order' and self.__user_authenticate:
             response = self.send_order()
             if response['status'] == 'success':
-                pass
-                # TODO  do something like move to payment page
+                order_details = self.__callback.data['order']
+                st = f'Start Vaction in  {order_details["start_date"]} \n'
+                st += f'End Vaction in  {order_details["end_date"]} \n'
+                res = messagebox.showinfo("Order Summary", st)
+                print(res)
+                if (res == 'OK'):
+                    pass
+
             else:
                 messagebox.showerror("Something went wrong with your order, Please try again", response['message'])
                 self.show_app()

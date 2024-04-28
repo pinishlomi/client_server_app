@@ -143,8 +143,8 @@ class Order(tk.Frame):
         if selected_index:
             self.user_meals = []
             for i in selected_index:
-                selected_item = self.meals_listbox.get(selected_index)
-                self.user_meals.add(selected_item)
+                selected_item = self.meals_listbox.get(i)
+                self.user_meals.append(selected_item)
 
     def on_start_date(self, event):
         selected_date = self.start_date_entry.get_date()
