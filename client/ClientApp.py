@@ -14,17 +14,16 @@ from client_server_app.private_data import HOST, PORT, SECRET_KEY
 
 
 class ClientApp(tk.Tk):
-    '''
-    this class responsible for all the actions that trigger from ui components.
+    """
+    Responsible for all the actions that trigger from ui components.
     each ui component trigger callback function for each event.
-    '''
+    """
     def __init__(self):
         super().__init__()
         self.__callback = None
         self.__server_address = (HOST, PORT)
         self.title(TITLE)
         self.geometry(f'{self.winfo_screenwidth()}x{self.winfo_screenheight()}')
-        print(f'main : {self.winfo_screenwidth()}x{self.winfo_screenheight()}')
         self.__current_screen = None
         self.protocol("WM_DELETE_WINDOW", self.on_close)
         self.__server_connection = ServerConnection(HOST, PORT, SECRET_KEY)
@@ -56,7 +55,6 @@ class ClientApp(tk.Tk):
         self.mainloop()
 
     def callback_func(self):
-        print(self.__callback)
         if self.__callback.type == 'sign_in':
             self.destroy_current()
             self.clear_all_items()
@@ -127,4 +125,5 @@ class ClientApp(tk.Tk):
 
 
 if __name__ == '__main__':
-    ClientApp().show_app()
+    client = ClientApp()
+    client.show_app()

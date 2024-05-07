@@ -20,7 +20,6 @@ class ServerConnection:
                 s.connect((self.host, self.port))
                 s.sendall(json.dumps(data).encode())
                 response = s.recv(1024).decode()
-                print('response from server: ', json.loads(response))
                 return json.loads(response)
             except ConnectionError:
                 return {'status': 'error', 'message': 'Failed to connect to the server.'}
