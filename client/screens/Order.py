@@ -1,15 +1,18 @@
 import pathlib
 import tkinter as tk
-from datetime import datetime, date, timedelta
-from tkinter import ttk, Listbox, MULTIPLE
+from datetime import timedelta
+from tkinter import ttk
+
+import customtkinter as ctk
+from PIL import Image, ImageTk
 from tkcalendar import DateEntry
 
 from client_server_app.client.screens import Callback
-from PIL import Image, ImageTk
-import customtkinter as ctk
+
 
 def on_start_date(event):
     print(f"Selected date: ")
+
 
 class Order(tk.Frame):
     def __init__(self, root, callback: Callback):
@@ -21,8 +24,7 @@ class Order(tk.Frame):
         self.num_adults_var = None
         self.num_kids_var = None
         self.num_rooms_var = None
-        self.selected_meals = None
-        self.user_meals = []
+        self.checkboxes_meal = {}
         self.canvas = None
         self.background_photo = None
         self.show()
@@ -53,7 +55,8 @@ class Order(tk.Frame):
         space = ctk.CTkLabel(master=main_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=10)
 
-        label = ctk.CTkLabel(master=main_frame, font=title_font, text='Reservation Details', padx=10, pady=5, text_color='black')
+        label = ctk.CTkLabel(master=main_frame, font=title_font, text='Reservation Details', padx=10, pady=5,
+                             text_color='black')
         label.pack(padx=10)
         space = ctk.CTkLabel(master=main_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
@@ -62,7 +65,7 @@ class Order(tk.Frame):
         data_frame.pack(padx=40, fill='both')
 
         left_frame = ctk.CTkFrame(master=data_frame, fg_color='beige')
-        left_frame.pack(padx=80,  expand=True, side=tk.LEFT)
+        left_frame.pack(padx=80, expand=True, side=tk.LEFT)
 
         start_date_lbl = ctk.CTkLabel(master=left_frame, font=filed_font, text='Start Date:', text_color='black')
         start_date_lbl.pack(anchor=tk.W, padx=10)
@@ -81,18 +84,18 @@ class Order(tk.Frame):
         num_adults_combo.current(0)
         num_adults_combo.pack(anchor=tk.W, padx=10)
 
-
         space = ctk.CTkLabel(master=left_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
         meals_lbl = ctk.CTkLabel(master=left_frame, font=filed_font, text='Select Meals:', text_color='black')
         meals_lbl.pack(anchor=tk.W, padx=10)
 
-        self.meals_listbox = Listbox(left_frame, selectmode=MULTIPLE, height=3)
+        # Create checkboxes using a loop
         meal_options = ['breakfast', 'lunch', 'dinner']
         for meal in meal_options:
-            self.meals_listbox.insert(tk.END, meal)
-        self.meals_listbox.pack(anchor=tk.W, padx=10)
-        self.meals_listbox.bind("<<ListboxSelect>>", self.on_select)
+            var = tk.IntVar()  # Create a variable to store checkbox state
+            checkbox = ctk.CTkCheckBox(left_frame, text=meal, variable=var, hover_color='gray')
+            checkbox.pack(anchor=tk.W, padx=10, pady=3)  # Add checkbox to the window
+            self.checkboxes_meal[meal] = var  # Store checkbox and variable in dictionary
 
         right_frame = ctk.CTkFrame(master=data_frame, fg_color='beige')
         right_frame.pack(padx=40, expand=True, side=tk.LEFT)
@@ -106,7 +109,6 @@ class Order(tk.Frame):
         self.end_date_entry.set_date(self.start_date_entry.get_date() + timedelta(days=7))
         space = ctk.CTkLabel(master=right_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
-
 
         num_kids_lbl = ctk.CTkLabel(master=right_frame, font=filed_font, text='Number Of Kids:', text_color='black')
         num_kids_lbl.pack(anchor=tk.W, padx=10)
@@ -129,22 +131,12 @@ class Order(tk.Frame):
         space = ctk.CTkLabel(master=right_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
 
-
         space = ctk.CTkLabel(master=right_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
 
         order_btn = ctk.CTkButton(master=main_frame, font=title_font, text='Submit Reservation',
                                   fg_color='#e9e9e9', text_color='black', command=self.order)
         order_btn.pack(pady=0, padx=10)
-
-    def on_select(self, event):
-        # Get the selected item
-        selected_index = self.meals_listbox.curselection()
-        if selected_index:
-            self.user_meals = []
-            for i in selected_index:
-                selected_item = self.meals_listbox.get(i)
-                self.user_meals.append(selected_item)
 
     def on_start_date(self, event):
         selected_date = self.start_date_entry.get_date()
@@ -158,11 +150,13 @@ class Order(tk.Frame):
 
     def order(self):
         # Collect selected meals
-        selected_meals_indices = self.meals_listbox.curselection()
-        self.selected_meals = [self.meals_listbox.get(index) for index in selected_meals_indices]
+        selected_meals = []
+        for checkbox, var in self.checkboxes_meal.items():
+            if var.get():
+                selected_meals.append(checkbox)
 
         # Print the selected meals for testing
-        print(f'Selected meals: {self.selected_meals}')
+        print(f'Selected meals: {selected_meals}')
 
         # Add code to handle the reservation with selected meals
         data = {
@@ -171,18 +165,20 @@ class Order(tk.Frame):
             'num_adults': self.num_adults_var.get(),
             'num_kids': self.num_kids_var.get(),
             'num_rooms': self.num_rooms_var.get(),
-            'meals': self.user_meals,
+            'meals': selected_meals,
         }
         self.callback.type = 'order'
         self.callback.data = {'order': data}
         self.callback.function()
 
-def main():
-    root = tk.Tk()
-    root.title("Reservation Details")
-    root.geometry(f'{root.winfo_screenwidth()}x{root.winfo_screenheight()}')
-    Order(root, None)
-    root.mainloop()
 
-if __name__ == '__main__':
-    main()
+# def main():
+#     root = tk.Tk()
+#     root.title("Reservation Details")
+#     root.geometry(f'{root.winfo_screenwidth()}x{root.winfo_screenheight()}')
+#     Order(root, None)
+#     root.mainloop()
+#
+#
+# if __name__ == '__main__':
+#     main()
