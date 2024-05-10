@@ -15,9 +15,6 @@ class Auth:
 
     def compare_digest(self, data, client_digest):
         server_digest = hmac.new(SECRET_KEY, data, hashlib.sha256).hexdigest()
-        print('data: ', data)
-        print('server_digest: ', server_digest)
-        print('client_digest: ', client_digest)
         return hmac.compare_digest(server_digest, client_digest)
 
     def generate_token(self, username):
@@ -33,7 +30,6 @@ class Auth:
         verify = {'status': 'failed'}
         try:
             payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
-            print('payload: ', payload)
             verify['status'] = 'success'
             return verify
         except jwt.ExpiredSignatureError:
@@ -56,7 +52,6 @@ class Auth:
             client_data = json.loads(data.decode())
             hmac_password = hmac.new(SECRET_KEY, json.dumps(client_data['password']).encode(),
                                      hashlib.sha256).hexdigest()
-            print(client_data['username'], hmac_password)
             return self.__db.add_user(client_data['username'], hmac_password)
         return False
 

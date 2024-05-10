@@ -16,8 +16,6 @@ class FirebaseDB:
         })
         # Reference to the root of your database
         self.db = db.reference()
-        # self.connect_db()
-        # print(self.add_user('u1', 'p1'))
 
     def connect_db(self):
         # Connect to Firebase database
@@ -65,6 +63,3 @@ class FirebaseDB:
             print(f"User order added successfully to the database.")
         except Exception as e:
             print(f"Error adding order: {e}")
-
-if __name__ == '__main__':
-    FirebaseDB()
