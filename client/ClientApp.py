@@ -6,10 +6,9 @@ from client_server_app.client.ServerConnection import ServerConnection
 from client_server_app.client.screens.Callback import Callback
 from client_server_app.client.screens.LandingPage import LandingPage
 from client_server_app.client.screens.Login import Login
-from client_server_app.client.screens.MessagePage import MessagePage
 from client_server_app.client.screens.Order import Order
 from client_server_app.client.screens.Register import Register
-from client_server_app.constants import WIDTH, HEIGHT, TITLE
+from client_server_app.constants import TITLE
 from client_server_app.private_data import HOST, PORT, SECRET_KEY
 
 
@@ -39,9 +38,6 @@ class ClientApp(tk.Tk):
         if (isinstance(self.__current_screen, LandingPage) or
                 isinstance(self.__current_screen, Order)):
             self.destroy()
-        # if isinstance(self.__current_screen, MessagePage):
-        #     self.__callback.data = {'user_authenticate': self.__user_authenticate}
-        #     self.__current_screen = LandingPage(self.__callback)
         else:
             self.show_app()
 
@@ -74,6 +70,7 @@ class ClientApp(tk.Tk):
                 self.show_app()
             else:
                 messagebox.showerror("Login Failed", response['message'])
+
         elif self.__callback.type == 'register':
             response = self.join_now()
             if response['status'] == 'success':

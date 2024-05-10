@@ -2,16 +2,12 @@ import pathlib
 import tkinter as tk
 from datetime import timedelta
 from tkinter import ttk
-
+import tkinter.messagebox as tkmb
 import customtkinter as ctk
 from PIL import Image, ImageTk
 from tkcalendar import DateEntry
-
+from datetime import date
 from client_server_app.client.screens import Callback
-
-
-def on_start_date(event):
-    print(f"Selected date: ")
 
 
 class Order(tk.Frame):
@@ -19,6 +15,8 @@ class Order(tk.Frame):
         super().__init__()
         self.root = root
         self.callback = callback
+        self.selected_start_date = None
+        self.selected_end_date = None
         self.start_date_entry = None
         self.end_date_entry = None
         self.num_adults_var = None
@@ -31,14 +29,12 @@ class Order(tk.Frame):
 
     def show(self):
         self.root.configure(bg='beige')
-        print(f'Login : {self.root.winfo_screenwidth()}x{self.root.winfo_screenheight()}')
 
         # Load your image
         project_dir = pathlib.Path(__file__).parent.parent.parent.resolve()
         image_path = f'{project_dir}/assets/images/sign_up.png'
         original_image = Image.open(image_path)
         image_width = int(self.root.winfo_screenwidth())
-        image_height = int(original_image.size[1] * image_width / original_image.size[0])
         resized_image = original_image.resize((image_width, int(self.root.winfo_screenheight() * 1 / 4)))
         self.background_photo = ImageTk.PhotoImage(resized_image)
 
@@ -70,6 +66,7 @@ class Order(tk.Frame):
         start_date_lbl = ctk.CTkLabel(master=left_frame, font=filed_font, text='Start Date:', text_color='black')
         start_date_lbl.pack(anchor=tk.W, padx=10)
         self.start_date_entry = DateEntry(left_frame, date_pattern="dd-mm-yyyy")
+        self.selected_start_date = self.start_date_entry.get_date()
         self.start_date_entry.pack(anchor=tk.W, padx=10)
         self.start_date_entry.bind("<<DateEntrySelected>>", self.on_start_date)
 
@@ -79,8 +76,9 @@ class Order(tk.Frame):
         num_adults_lbl = ctk.CTkLabel(master=left_frame, font=filed_font, text='Number Of Adults:', text_color='black')
         num_adults_lbl.pack(anchor=tk.W, padx=10)
         self.num_adults_var = tk.StringVar()
-        GENDER_OPTIONS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-        num_adults_combo = ttk.Combobox(left_frame, values=GENDER_OPTIONS, width=5, textvariable=self.num_adults_var)
+        num_children_options = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        num_adults_combo = ttk.Combobox(left_frame, values=num_children_options, width=5,
+                                        textvariable=self.num_adults_var)
         num_adults_combo.current(0)
         num_adults_combo.pack(anchor=tk.W, padx=10)
 
@@ -107,13 +105,16 @@ class Order(tk.Frame):
         self.end_date_entry = DateEntry(right_frame, date_pattern="dd-mm-yyyy")
         self.end_date_entry.pack(anchor=tk.W, padx=10)
         self.end_date_entry.set_date(self.start_date_entry.get_date() + timedelta(days=7))
+        self.selected_end_date = self.end_date_entry.get_date()
+        self.end_date_entry.bind("<<DateEntrySelected>>", self.on_end_date)
+
         space = ctk.CTkLabel(master=right_frame, font=filed_font, text='', text_color='black')
         space.pack(anchor=tk.W, pady=5)
 
         num_kids_lbl = ctk.CTkLabel(master=right_frame, font=filed_font, text='Number Of Kids:', text_color='black')
         num_kids_lbl.pack(anchor=tk.W, padx=10)
         self.num_kids_var = tk.StringVar()
-        num_kids_combo = ttk.Combobox(right_frame, values=GENDER_OPTIONS, width=5, textvariable=self.num_kids_var)
+        num_kids_combo = ttk.Combobox(right_frame, values=num_children_options, width=5, textvariable=self.num_kids_var)
         num_kids_combo.current(0)
         num_kids_combo.pack(anchor=tk.W, padx=10)
 
@@ -123,8 +124,8 @@ class Order(tk.Frame):
         num_rooms_lbl = ctk.CTkLabel(master=right_frame, font=filed_font, text='Number Of Rooms:', text_color='black')
         num_rooms_lbl.pack(anchor=tk.W, padx=10)
         self.num_rooms_var = tk.StringVar()
-        NUM_ROOMS_OPTIONS = ['1', '2', '3', '4', '5']
-        num_rooms_combo = ttk.Combobox(right_frame, values=NUM_ROOMS_OPTIONS, width=5, textvariable=self.num_rooms_var)
+        num_rooms_options = ['1', '2', '3', '4', '5']
+        num_rooms_combo = ttk.Combobox(right_frame, values=num_rooms_options, width=5, textvariable=self.num_rooms_var)
         num_rooms_combo.current(0)
         num_rooms_combo.pack(anchor=tk.W, padx=10)
 
@@ -139,14 +140,31 @@ class Order(tk.Frame):
         order_btn.pack(pady=0, padx=10)
 
     def on_start_date(self, event):
-        selected_date = self.start_date_entry.get_date()
+        current_selected_date = self.start_date_entry.get_date()
         selected_end_date = self.end_date_entry.get_date()
-        print(f"Selected date: {selected_date}, {selected_end_date}{type(selected_date)}")
-        if selected_date > selected_end_date:
-            print("error")
-            self.end_date_entry.set_date(selected_date)
+        if current_selected_date < date.today():
+            self.start_date_entry.set_date(self.selected_start_date)
+            tkmb.showerror(title="Invalid Date",
+                           message="Start date should be after or equals to current day")
+        elif current_selected_date > selected_end_date:
+            self.start_date_entry.set_date(self.selected_start_date)
+            tkmb.showerror(title="Invalid Date",
+                           message="Start date should be before or equals to end date,\n Please correct to valid date")
         else:
-            print("ok")
+            self.selected_start_date = current_selected_date
+
+    def on_end_date(self, event):
+        current_selected_date = self.end_date_entry.get_date()
+        if current_selected_date < date.today():
+            self.end_date_entry.set_date(self.selected_end_date)
+            tkmb.showerror(title="Invalid Date",
+                           message="Start date should be after or equals to current day")
+        elif current_selected_date < self.selected_start_date:
+            self.end_date_entry.set_date(self.selected_end_date)
+            tkmb.showerror(title="Invalid Date",
+                           message="End date should be after or equals to start date,\n Please correct to valid date")
+        else:
+            self.selected_end_date = current_selected_date
 
     def order(self):
         # Collect selected meals
@@ -154,9 +172,6 @@ class Order(tk.Frame):
         for checkbox, var in self.checkboxes_meal.items():
             if var.get():
                 selected_meals.append(checkbox)
-
-        # Print the selected meals for testing
-        print(f'Selected meals: {selected_meals}')
 
         # Add code to handle the reservation with selected meals
         data = {
@@ -170,15 +185,3 @@ class Order(tk.Frame):
         self.callback.type = 'order'
         self.callback.data = {'order': data}
         self.callback.function()
-
-
-# def main():
-#     root = tk.Tk()
-#     root.title("Reservation Details")
-#     root.geometry(f'{root.winfo_screenwidth()}x{root.winfo_screenheight()}')
-#     Order(root, None)
-#     root.mainloop()
-#
-#
-# if __name__ == '__main__':
-#     main()

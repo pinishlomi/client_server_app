@@ -52,7 +52,7 @@ class Register():
 
         username_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Username:')
         username_lbl.pack(anchor=tk.W, padx=10)
-        self.username_entry = ctk.CTkEntry(master=register_frame, font=filed_font)
+        self.username_entry = ctk.CTkEntry(master=register_frame, font=filed_font, width=300)
         self.username_entry.pack(anchor=tk.W, padx=10)
 
         space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
@@ -60,7 +60,7 @@ class Register():
 
         password_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Password:')
         password_lbl.pack(anchor=tk.W, padx=10)
-        self.password_entry = ctk.CTkEntry(master=register_frame, font=filed_font, show="*")
+        self.password_entry = ctk.CTkEntry(master=register_frame, font=filed_font, show="*", width=300)
         self.password_entry.pack(anchor=tk.W, padx=10)
 
         sign_on_btn_frame = ctk.CTkFrame(master=register_frame, fg_color='beige')
@@ -91,18 +91,12 @@ class Register():
     def validate_username(self):
         # Validate email format using a regular expression
         pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
-        if re.match(pattern, self.username_entry.get()):
-            return True
-        else:
-            return False
+        return re.match(pattern, self.username_entry.get())
 
     def validate_password(self):
         # Check password criteria
         password = self.password_entry.get()
-        if (len(password) >= 8
+        return (len(password) >= 8
                 and any(c.isupper() for c in password)
                 and any(c.islower() for c in password)
-                and any(c.isdigit() for c in password)):
-            return True
-        else:
-            return False
+                and any(c.isdigit() for c in password))

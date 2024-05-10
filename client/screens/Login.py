@@ -18,7 +18,6 @@ class Login(tk.Frame):
 
     def show(self):
         self.root.configure(bg='beige')
-        print(f'Login : {self.root.winfo_screenwidth()}x{self.root.winfo_screenheight()}')
         # Load your image
         # Get the absolute path of the image file relative to the project's root folder
         project_dir = pathlib.Path(__file__).parent.parent.parent.resolve()
@@ -50,7 +49,7 @@ class Login(tk.Frame):
 
         username_lbl = ctk.CTkLabel(master=login_frame,font=filed_font, text='Username:')
         username_lbl.pack(anchor=tk.W, padx=10)
-        self.username_entry = ctk.CTkEntry(master=login_frame,font=filed_font)
+        self.username_entry = ctk.CTkEntry(master=login_frame,font=filed_font, width=300)
         self.username_entry.pack(anchor=tk.W, padx=10)
 
         space = ctk.CTkLabel(master=login_frame, font=filed_font, text='')
@@ -58,7 +57,7 @@ class Login(tk.Frame):
 
         password_lbl = ctk.CTkLabel(master=login_frame,font=filed_font, text='Password:')
         password_lbl.pack(anchor=tk.W, padx=10)
-        self.password_entry = ctk.CTkEntry(master=login_frame,font=filed_font, show="*")
+        self.password_entry = ctk.CTkEntry(master=login_frame,font=filed_font, show="*", width=300)
         self.password_entry.pack(anchor=tk.W, padx=10)
 
         sign_on_btn_frame = ctk.CTkFrame(master=login_frame, fg_color='beige')

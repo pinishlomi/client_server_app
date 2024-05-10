@@ -1,7 +1,7 @@
-import socket
 import json
+import socket
 
-from client_server_app.private_data import SECRET_KEY, HOST, PORT
+from client_server_app.private_data import HOST, PORT
 from client_server_app.server.auth import Auth
 
 
@@ -31,32 +31,33 @@ class Server:
                     break
                 data = json.loads(data.decode())
                 client_data = json.dumps(data['data']).encode()
-                print('get request: ', data)
                 action = data['data']['type']
                 if action == 'login':
                     if self.__auth.login_authenticate(client_data, data['digest']):
                         username = data['data']['username']
                         token = self.__auth.generate_token(username)
-                        self.__auth.add_user_token(username, token)
-                        #  TODO remove this
-                        # order = {
-                        #     'date' : '24032024',
-                        #     'view': 'pool',
-                        #     'children':4
-                        # }
-                        # self.__auth.add_order(username, order)
-                        response = {'status': 'success', 'token': token,
-                                    'message': 'Data received and authenticated. you '
-                                               'are logged in'}
+                        res = self.__auth.add_user_token(username, token)
+                        if res:
+                            response = {'status': 'success', 'token': token,
+                                        'message': 'Data received and authenticated. you '
+                                                   'are logged in'}
+                        else:
+                            response = {'status': 'failed',
+                                        'message': 'Somthing went wrong, server failed to add you to users'}
                     else:
                         response = {'status': 'failed', 'message': 'Data received but not authenticated'}
                 elif action == 'register':
                     if self.__auth.register_authenticate(client_data, data['digest']):
                         username = data['data']['username']
                         token = self.__auth.generate_token(username)
-                        response = {'status': 'success', 'token': token,
-                                    'message': 'Data received and authenticated. you '
-                                               'are logged in'}
+                        res = self.__auth.add_user_token(username, token)
+                        if res:
+                            response = {'status': 'success', 'token': token,
+                                        'message': 'Data received and authenticated. you '
+                                                   'are logged in'}
+                        else:
+                            response = {'status': 'failed',
+                                        'message': 'Somthing went wrong, server failed to add you to users'}
                     else:
                         response = {'status': 'failed', 'message': 'Data received but not authenticated'}
                 elif action == 'order':
@@ -64,9 +65,11 @@ class Server:
                     if verify['status'] == 'success':
                         username = data['data']['username']
                         res = self.__auth.add_order(username, data['order'])
-                        print('res order', res)
-
-                        response = {'status': 'success', 'message': 'Server got your message...'}
+                        if res:
+                            response = {'status': 'success', 'message': 'Server got your message...'}
+                        else:
+                            response = {'status': 'failed',
+                                        'message': 'Somthing went wrong, server failed to add order'}
                     else:
                         response = {'status': 'failed', 'message': verify['message']}
                 else:

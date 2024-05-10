@@ -64,5 +64,5 @@ class LandingPage(tk.Frame):
 
     def join_now(self):
         self.callback.type = 'sign_up'
-        self.callback.data = 'sign_up clicked'
+        self.callback.data = 'register clicked'
         self.callback.function()
