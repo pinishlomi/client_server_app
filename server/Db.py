@@ -8,11 +8,6 @@ def clean_email_filter(username):
 
 class Db:
     def __init__(self):
-        # Simulated user database (replace with actual database)
-        # self.__users = {
-        #     'u1': {'password': '16365877c300ad49438bb66c5dfc162ae65812a43df54345f0d04728a701562a', 'token': ''},
-        #     'u2': {'password': 'p2', 'token': ''}
-        # }
         self.db = FirebaseDB()
 
     def get_users(self):

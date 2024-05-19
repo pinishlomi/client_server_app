@@ -1,6 +1,6 @@
 import pathlib
 import tkinter as tk
-from client_server_app.client.screens import Callback
+from client_server_app.client import Callback
 from PIL import Image, ImageTk
 import customtkinter as ctk
 import re

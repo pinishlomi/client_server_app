@@ -17,15 +17,6 @@ class FirebaseDB:
         # Reference to the root of your database
         self.db = db.reference()
 
-    def connect_db(self):
-        # Connect to Firebase database
-        try:
-            data = self.db.get()
-            print("Successfully connected to Firebase database.")
-            print("Data from Firebase:", data)
-        except Exception as e:
-            print("Error connecting to Firebase database:", e)
-
     def get_users(self):
         try:
             db_users = self.db.child('users')

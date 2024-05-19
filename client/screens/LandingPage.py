@@ -2,7 +2,7 @@ import pathlib
 from PIL import Image, ImageTk
 import tkinter as tk
 import customtkinter as ctk
-from client_server_app.client.screens import Callback
+from client_server_app.client import Callback
 
 
 class LandingPage(tk.Frame):

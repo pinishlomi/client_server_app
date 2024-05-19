@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 from client_server_app.client.ServerConnection import ServerConnection
-from client_server_app.client.screens.Callback import Callback
+from client_server_app.client.Callback import Callback
 from client_server_app.client.screens.LandingPage import LandingPage
 from client_server_app.client.screens.Login import Login
 from client_server_app.client.screens.Order import Order
@@ -13,10 +13,6 @@ from client_server_app.private_data import HOST, PORT, SECRET_KEY
 
 
 class ClientApp(tk.Tk):
-    """
-    Responsible for all the actions that trigger from ui components.
-    each ui component trigger callback function for each event.
-    """
     def __init__(self):
         super().__init__()
         self.__callback = None
@@ -80,20 +76,24 @@ class ClientApp(tk.Tk):
                 self.show_app()
             else:
                 messagebox.showerror("Login Failed", response['message'])
-        elif self.__callback.type == 'order' and self.__user_authenticate:
-            response = self.send_order()
-            if response['status'] == 'success':
-                order_details = self.__callback.data['order']
-                st = f'Start Vaction in  {order_details["start_date"]} \n'
-                st += f'End Vaction in  {order_details["end_date"]} \n'
-                res = messagebox.showinfo("Order Summary", st)
-                print(res)
-                if (res == 'OK'):
-                    pass
-
+        elif self.__callback.type == 'order':
+            if self.__user_authenticate:
+                response = self.send_order()
+                if response['status'] == 'success':
+                    order_details = self.__callback.data['order']
+                    st = f'Start Vaction in  {order_details["start_date"]} \n'
+                    st += f'End Vaction in  {order_details["end_date"]} \n'
+                    messagebox.showinfo("Order Summary", st)
+                else:
+                    messagebox.showerror("Login Failed, Please try again", response['message'])
+                    self.__user_authenticate = False
+                    self.show_app()
             else:
-                messagebox.showerror("Something went wrong with your order, Please try again", response['message'])
+                messagebox.showerror("Login Failed, Please try again", "Login expired, You need to login again")
                 self.show_app()
+        else:
+            print('Unknown type')
+            self.show_app()
 
     def login(self):
         username = self.__callback.data['username']

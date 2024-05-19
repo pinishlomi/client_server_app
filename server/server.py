@@ -26,15 +26,15 @@ class Server:
         print(f"Connection from {self.__addr} has been established.")
         try:
             while True:
-                data = self.__conn.recv(1024)
-                if not data:
+                request_data = self.__conn.recv(1024)
+                if not request_data:
                     break
-                data = json.loads(data.decode())
-                client_data = json.dumps(data['data']).encode()
-                action = data['data']['type']
+                request_data = json.loads(request_data.decode())
+                client_data = json.dumps(request_data['data']).encode()
+                action = request_data['data']['type']
                 if action == 'login':
-                    if self.__auth.login_authenticate(client_data, data['digest']):
-                        username = data['data']['username']
+                    if self.__auth.login_authenticate(client_data, request_data['digest']):
+                        username = request_data['data']['username']
                         token = self.__auth.generate_token(username)
                         res = self.__auth.add_user_token(username, token)
                         if res:
@@ -47,8 +47,8 @@ class Server:
                     else:
                         response = {'status': 'failed', 'message': 'Data received but not authenticated'}
                 elif action == 'register':
-                    if self.__auth.register_authenticate(client_data, data['digest']):
-                        username = data['data']['username']
+                    if self.__auth.register_authenticate(client_data, request_data['digest']):
+                        username = request_data['data']['username']
                         token = self.__auth.generate_token(username)
                         res = self.__auth.add_user_token(username, token)
                         if res:
@@ -61,12 +61,12 @@ class Server:
                     else:
                         response = {'status': 'failed', 'message': 'Data received but not authenticated'}
                 elif action == 'order':
-                    verify = self.__auth.verify_request(data)
+                    verify = self.__auth.verify_request(request_data)
                     if verify['status'] == 'success':
-                        username = data['data']['username']
-                        res = self.__auth.add_order(username, data['order'])
+                        username = request_data['data']['username']
+                        res = self.__auth.add_order(username, request_data['order'])
                         if res:
-                            response = {'status': 'success', 'message': 'Server got your message...'}
+                            response = {'status': 'success', 'message': 'order added'}
                         else:
                             response = {'status': 'failed',
                                         'message': 'Somthing went wrong, server failed to add order'}

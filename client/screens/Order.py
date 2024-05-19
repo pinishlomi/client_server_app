@@ -7,7 +7,7 @@ import customtkinter as ctk
 from PIL import Image, ImageTk
 from tkcalendar import DateEntry
 from datetime import date
-from client_server_app.client.screens import Callback
+from client_server_app.client import Callback
 
 
 class Order(tk.Frame):

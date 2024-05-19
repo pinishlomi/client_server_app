@@ -29,9 +29,8 @@ class Auth:
     def __verify_token(self, token):
         verify = {'status': 'failed'}
         try:
-            payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
+            jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
             verify['status'] = 'success'
-            return verify
         except jwt.ExpiredSignatureError:
             verify['message'] = 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:
@@ -59,7 +58,10 @@ class Auth:
         return self.__db.add_user_token(username, token)
 
     def verify_request(self, data):
-        client_token = self.__db.get_user_token(data['data']['username'])
+        db_token = self.__db.get_user_token(data['data']['username'])
+        client_token = data['data']['token']
+        if db_token != client_token:
+            return {'status': 'failed'}
         return self.__verify_token(client_token)
 
     def add_order(self, username, order):
