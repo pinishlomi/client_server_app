@@ -11,6 +11,13 @@ from client_server_app.client import Callback
 
 
 class Order(tk.Frame):
+
+
+    """
+    Entry claim: gets root, callback: Callback
+    Exit claim: The operation activates the inheriting class (tk.frame),
+    receives the callback resets variables to none and calls the show function
+    """
     def __init__(self, root, callback: Callback):
         super().__init__()
         self.root = root
@@ -27,6 +34,10 @@ class Order(tk.Frame):
         self.background_photo = None
         self.show()
 
+    """
+    Entry claim: None
+    Exit claim: sets and shows the screen
+    """
     def show(self):
         self.root.configure(bg='beige')
 
@@ -139,6 +150,11 @@ class Order(tk.Frame):
                                   fg_color='#e9e9e9', text_color='black', command=self.order)
         order_btn.pack(pady=0, padx=10)
 
+    """
+    Entry claim: get event from the user
+    Exit claim: check if the start dates are invalid.
+    show a messagebox if the dates are invalid.
+    """
     def on_start_date(self, event):
         current_selected_date = self.start_date_entry.get_date()
         selected_end_date = self.end_date_entry.get_date()
@@ -153,6 +169,11 @@ class Order(tk.Frame):
         else:
             self.selected_start_date = current_selected_date
 
+    """
+    Entry claim: get event from the user
+    Exit claim: check if the end dates are invalid.
+    show a messagebox if the dates are invalid.
+    """
     def on_end_date(self, event):
         current_selected_date = self.end_date_entry.get_date()
         if current_selected_date < date.today():
@@ -166,6 +187,11 @@ class Order(tk.Frame):
         else:
             self.selected_end_date = current_selected_date
 
+    """
+    Entry claim: None
+    Exit claim: Updates the callback with the appropriate type and data for the user order
+    with the data that the user putted and calls the callback function.
+    """
     def order(self):
         # Collect selected meals
         selected_meals = []

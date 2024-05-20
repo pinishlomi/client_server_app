@@ -5,7 +5,18 @@ import customtkinter as ctk
 from client_server_app.client import Callback
 
 
+"""
+Entry claim: 
+Exit claim: 
+"""
 class LandingPage(tk.Frame):
+
+
+    """
+    Entry claim: gets root, callback
+    Exit claim: The operation activates the inheriting class (tk.frame), receives the callback and the root,
+    initializes that the screen size cannot be changed and calls the show function
+    """
     def __init__(self, root, callback: Callback):
         super().__init__()
         self.callback = callback
@@ -13,6 +24,10 @@ class LandingPage(tk.Frame):
         root.resizable(False, False)
         self.show()
 
+    """
+    Entry claim: None
+    Exit claim: Shows the screen
+    """
     def show(self):
         self.root.configure(bg='beige')
 
@@ -47,7 +62,7 @@ class LandingPage(tk.Frame):
             space = ctk.CTkLabel(master=landing_frame, font=filed_font, text='')
             space.pack(anchor=tk.W, pady=10)
 
-            label = ctk.CTkLabel(master=landing_frame, font=title_font, text='Wellcome...', padx=10, pady=5)
+            label = ctk.CTkLabel(master=landing_frame, font=title_font, text='Welcome to Wolf Hotel!', text_color='black',  padx=10, pady=5)
             label.pack(pady=12, padx=10)
 
             sign_on_btn = ctk.CTkButton(master=landing_frame, font=title_font, text='Sign in',
@@ -57,11 +72,19 @@ class LandingPage(tk.Frame):
                                    fg_color='#e9e9e9', text_color='black', command=self.join_now)
             sign_on_btn.pack(pady=40, padx=10)
 
+    """
+    Entry claim: None
+    Exit claim: Updates the callback with the appropriate data and calls it
+    """
     def sign_in(self):
         self.callback.type = 'sign_in'
         self.callback.data = 'Sign in clicked'
         self.callback.function()
 
+    """
+    Entry claim: None
+    Exit claim: Updates the callback with the appropriate data and calls it
+    """
     def join_now(self):
         self.callback.type = 'sign_up'
         self.callback.data = 'register clicked'

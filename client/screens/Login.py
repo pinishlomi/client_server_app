@@ -5,7 +5,18 @@ from PIL import Image, ImageTk
 import customtkinter as ctk
 
 
+"""
+Entry claim: 
+Exit claim: handle with login screen data and shows it. 
+"""
 class Login(tk.Frame):
+
+
+    """
+    Entry claim: gets root, callback: Callback
+    Exit claim: The operation activates the inheriting class (tk.frame),
+    receives the callback resets variables to none and calls the show function
+    """
     def __init__(self, root, callback: Callback):
         super().__init__()
         self.root = root
@@ -16,6 +27,10 @@ class Login(tk.Frame):
         self.background_photo = None
         self.show()
 
+    """
+    Entry claim: None
+    Exit claim: sets and shows the screen
+    """
     def show(self):
         self.root.configure(bg='beige')
         # Load your image
@@ -44,10 +59,10 @@ class Login(tk.Frame):
         space = ctk.CTkLabel(master=login_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=10)
 
-        label = ctk.CTkLabel(master=login_frame, font=title_font, text='Login', padx=10, pady=5)
+        label = ctk.CTkLabel(master=login_frame, font=title_font, text='Login', text_color='black', padx=10, pady=5)
         label.pack(pady=12, padx=10)
 
-        username_lbl = ctk.CTkLabel(master=login_frame,font=filed_font, text='Username:')
+        username_lbl = ctk.CTkLabel(master=login_frame,font=filed_font, text='Username:', text_color='black')
         username_lbl.pack(anchor=tk.W, padx=10)
         self.username_entry = ctk.CTkEntry(master=login_frame,font=filed_font, width=300)
         self.username_entry.pack(anchor=tk.W, padx=10)
@@ -55,7 +70,7 @@ class Login(tk.Frame):
         space = ctk.CTkLabel(master=login_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=5)
 
-        password_lbl = ctk.CTkLabel(master=login_frame,font=filed_font, text='Password:')
+        password_lbl = ctk.CTkLabel(master=login_frame,font=filed_font, text='Password:', text_color='black')
         password_lbl.pack(anchor=tk.W, padx=10)
         self.password_entry = ctk.CTkEntry(master=login_frame,font=filed_font, show="*", width=300)
         self.password_entry.pack(anchor=tk.W, padx=10)
@@ -66,6 +81,11 @@ class Login(tk.Frame):
                                fg_color='#e9e9e9', text_color='black', command=self.login)
         sign_on_btn.pack(pady=40, padx=10)
 
+    """
+    Entry claim: None
+    Exit claim: Updates the callback with the appropriate data for sign in 
+    with the data that the user wrote and calls the callback function.
+    """
     def login(self):
         self.callback.type = 'login'
         self.callback.data = {'username': self.username_entry.get(), 'password': self.password_entry.get()}

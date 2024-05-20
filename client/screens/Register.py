@@ -7,7 +7,20 @@ import re
 import tkinter.messagebox as tkmb
 
 
+
+"""
+Entry claim: 
+Exit claim: handle with register screen data and shows it. 
+"""
 class Register():
+
+
+
+    """
+    Entry claim: gets root and callback
+    Exit claim: The operation activates the inheriting class,
+    receives the callback resets variables to none and calls the show function
+    """
     def __init__(self, root, callback: Callback):
         super().__init__()
         self.root = root
@@ -18,6 +31,10 @@ class Register():
         self.background_photo = None
         self.show()
 
+    """
+    Entry claim: None
+    Exit claim: sets and shows the screen
+    """
     def show(self):
         self.root.configure(bg='beige')
         print(f'register : {self.root.winfo_screenwidth()}x{self.root.winfo_screenheight()}')
@@ -47,10 +64,10 @@ class Register():
         space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=10)
 
-        label = ctk.CTkLabel(master=register_frame, font=title_font, text='Sign up', padx=10, pady=5)
+        label = ctk.CTkLabel(master=register_frame, font=title_font, text='Register',text_color='black', padx=10, pady=5)
         label.pack(pady=12, padx=10)
 
-        username_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Username:')
+        username_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Username:', text_color='black')
         username_lbl.pack(anchor=tk.W, padx=10)
         self.username_entry = ctk.CTkEntry(master=register_frame, font=filed_font, width=300)
         self.username_entry.pack(anchor=tk.W, padx=10)
@@ -58,7 +75,7 @@ class Register():
         space = ctk.CTkLabel(master=register_frame, font=filed_font, text='')
         space.pack(anchor=tk.W, pady=5)
 
-        password_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Password:')
+        password_lbl = ctk.CTkLabel(master=register_frame, font=filed_font, text='Password:', text_color='black')
         password_lbl.pack(anchor=tk.W, padx=10)
         self.password_entry = ctk.CTkEntry(master=register_frame, font=filed_font, show="*", width=300)
         self.password_entry.pack(anchor=tk.W, padx=10)
@@ -69,6 +86,14 @@ class Register():
                                     fg_color='#e9e9e9', text_color='black', command=self.join_now)
         sign_on_btn.pack(pady=40, padx=10)
 
+
+    """
+    Entry claim: None
+    Exit claim: Puts Username Eroor messagebox and Password Error messagebox
+    if the username or the password doest meet the criteria. 
+    if the password and the username meet the criteria, the def updates the callback with:
+    the type, right data and calls it. 
+    """
     def join_now(self):
         if not self.validate_username():
             tkmb.showerror(title="Username Error",
@@ -88,11 +113,20 @@ class Register():
         self.callback.data = {'username': username, 'password': password}
         self.callback.function()
 
+
+    """
+    Entry claim: None
+    Exit claim: check if the username meets the username pattern (that I set) and return bool var.
+    """
     def validate_username(self):
         # Validate email format using a regular expression
         pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
         return re.match(pattern, self.username_entry.get())
 
+    """
+    Entry claim: None
+    Exit claim: check if the password meets the username pattern (that I set) and return bool var.
+    """
     def validate_password(self):
         # Check password criteria
         password = self.password_entry.get()
