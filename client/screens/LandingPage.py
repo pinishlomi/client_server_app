@@ -2,8 +2,7 @@ import pathlib
 from PIL import Image, ImageTk
 import tkinter as tk
 import customtkinter as ctk
-from client_server_app.client import Callback
-
+from utils.Callback import Callback
 
 """
 Entry claim: 

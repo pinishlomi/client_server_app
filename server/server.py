@@ -1,8 +1,8 @@
 import json
 import socket
 
-from client_server_app.private_data import HOST, PORT
-from client_server_app.server.auth import Auth
+from utils.private_data import HOST, PORT
+from auth import Auth
 
 
 class Server:

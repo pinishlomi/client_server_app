@@ -1,4 +1,4 @@
-from client_server_app.server.firebase_db import FirebaseDB
+from firebase_db import FirebaseDB
 
 
 def clean_email_filter(username):

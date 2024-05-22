@@ -4,9 +4,9 @@ import jwt
 import json
 from datetime import datetime, timedelta, UTC
 
-from client_server_app.constants import TOKEN_EXPIRATION_TIME
-from client_server_app.private_data import SECRET_KEY
-from client_server_app.server.Db import Db
+from utils.constants import TOKEN_EXPIRATION_TIME
+from utils.private_data import SECRET_KEY
+from Db import Db
 
 
 class Auth:

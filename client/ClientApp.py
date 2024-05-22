@@ -2,14 +2,14 @@ import json
 import tkinter as tk
 from tkinter import messagebox
 
-from client_server_app.client.ServerConnection import ServerConnection
-from client_server_app.client.Callback import Callback
-from client_server_app.client.screens.LandingPage import LandingPage
-from client_server_app.client.screens.Login import Login
-from client_server_app.client.screens.Order import Order
-from client_server_app.client.screens.Register import Register
-from client_server_app.constants import TITLE
-from client_server_app.private_data import HOST, PORT, SECRET_KEY
+from server_con.ServerConnection import ServerConnection
+from utils.Callback import Callback
+from screens.LandingPage import LandingPage
+from screens.Login import Login
+from screens.Order import Order
+from screens.Register import Register
+from utils.constants import TITLE
+from utils.private_data import HOST, PORT, SECRET_KEY
 
 
 class ClientApp(tk.Tk):

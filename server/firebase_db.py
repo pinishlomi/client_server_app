@@ -1,7 +1,7 @@
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
-from client_server_app.constants import FIREBASE_CONFIG
+from utils.constants import FIREBASE_CONFIG
 
 
 class FirebaseDB:
