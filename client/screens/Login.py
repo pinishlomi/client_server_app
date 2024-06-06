@@ -6,8 +6,9 @@ import customtkinter as ctk
 
 
 """
-Entry claim: 
-Exit claim: handle with login screen data and shows it. 
+Entry claim: inherits from tk.Frame
+Exit claim: building and shows the sign in page. 
+updates the callback with the appropriate data and type when the user submits his data.  
 """
 class Login(tk.Frame):
 
@@ -36,7 +37,8 @@ class Login(tk.Frame):
         # Load your image
         # Get the absolute path of the image file relative to the project's root folder
         project_dir = pathlib.Path(__file__).parent.parent.parent.resolve()
-        image_path = f'{project_dir}/assets/images/sign_up.png'
+        image_path = f'{project_dir}/assets/images/piscine_v2-Compressed.jpg'
+        # /assets/images/sign_up.png
         original_image = Image.open(image_path)
         # Resize the image to fit 2/3 of the width
         image_width = int(self.root.winfo_screenwidth() * 2 / 3)

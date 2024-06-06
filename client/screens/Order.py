@@ -10,6 +10,13 @@ from datetime import date
 from utils.Callback import Callback
 
 
+
+"""
+Entry claim: inherits from tk.Frame
+Exit claim: building and shows the order page. 
+checks the dates are valid. 
+updates the callback with the appropriate data and type when the user submits his order.  
+"""
 class Order(tk.Frame):
 
 
@@ -43,7 +50,8 @@ class Order(tk.Frame):
 
         # Load your image
         project_dir = pathlib.Path(__file__).parent.parent.parent.resolve()
-        image_path = f'{project_dir}/assets/images/sign_up.png'
+        image_path = f'{project_dir}/assets/images/marina-bay-sands-hotel-singapore-blue-hour-night-lights-2560x1080-2844.jpg'
+        # /assets/images/sign_up.png
         original_image = Image.open(image_path)
         image_width = int(self.root.winfo_screenwidth())
         resized_image = original_image.resize((image_width, int(self.root.winfo_screenheight() * 1 / 4)))
@@ -87,8 +95,8 @@ class Order(tk.Frame):
         num_adults_lbl = ctk.CTkLabel(master=left_frame, font=filed_font, text='Number Of Adults:', text_color='black')
         num_adults_lbl.pack(anchor=tk.W, padx=10)
         self.num_adults_var = tk.StringVar()
-        num_children_options = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-        num_adults_combo = ttk.Combobox(left_frame, values=num_children_options, width=5,
+        num_adults_options = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        num_adults_combo = ttk.Combobox(left_frame, values=num_adults_options, width=5,
                                         textvariable=self.num_adults_var)
         num_adults_combo.current(0)
         num_adults_combo.pack(anchor=tk.W, padx=10)
@@ -102,7 +110,7 @@ class Order(tk.Frame):
         meal_options = ['breakfast', 'lunch', 'dinner']
         for meal in meal_options:
             var = tk.IntVar()  # Create a variable to store checkbox state
-            checkbox = ctk.CTkCheckBox(left_frame, text=meal, variable=var, hover_color='gray')
+            checkbox = ctk.CTkCheckBox(left_frame, text=meal,text_color='black', variable=var, hover_color='blue')
             checkbox.pack(anchor=tk.W, padx=10, pady=3)  # Add checkbox to the window
             self.checkboxes_meal[meal] = var  # Store checkbox and variable in dictionary
 
@@ -125,6 +133,7 @@ class Order(tk.Frame):
         num_kids_lbl = ctk.CTkLabel(master=right_frame, font=filed_font, text='Number Of Kids:', text_color='black')
         num_kids_lbl.pack(anchor=tk.W, padx=10)
         self.num_kids_var = tk.StringVar()
+        num_children_options = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
         num_kids_combo = ttk.Combobox(right_frame, values=num_children_options, width=5, textvariable=self.num_kids_var)
         num_kids_combo.current(0)
         num_kids_combo.pack(anchor=tk.W, padx=10)
@@ -190,7 +199,7 @@ class Order(tk.Frame):
     """
     Entry claim: None
     Exit claim: Updates the callback with the appropriate type and data for the user order
-    with the data that the user putted and calls the callback function.
+    with the data that the user putted and calls the callback function in ClientApp. 
     """
     def order(self):
         # Collect selected meals

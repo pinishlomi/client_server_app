@@ -4,14 +4,29 @@ import socket
 from utils.private_data import HOST, PORT
 from auth import Auth
 
+"""
+Entry claim: None
+Exit claim: listens to the client connections and get and set data to db.  
+"""
 
 class Server:
+    """
+    Entry claim: None
+    Exit claim: creates socket. creates auth object and run the start server function.
+    """
+
     def __init__(self):
         self.__addr = None
         self.__conn = None
         self.__auth = Auth()
         self.__server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.start_server(HOST, PORT)
+
+    """
+    Entry claim: gets host and port
+    Exit claim: start the server. binds the socket and the host and port and start listening. 
+    when message arrives she runs the handle_client_connection. 
+    """
 
     def start_server(self, host, port):
         self.__server_socket.bind((host, port))
@@ -21,6 +36,12 @@ class Server:
         while True:
             self.__conn, self.__addr = self.__server_socket.accept()
             self.handle_client_connection()
+
+    """
+    Entry claim: None
+    Exit claim: this is the main function of the server. here we handle all client requests. 
+    for each request depending the type the server handles it. 
+    """
 
     def handle_client_connection(self):
         print(f"Connection from {self.__addr} has been established.")

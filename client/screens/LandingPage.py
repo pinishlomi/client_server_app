@@ -5,9 +5,11 @@ import customtkinter as ctk
 from utils.Callback import Callback
 
 """
-Entry claim: 
-Exit claim: 
+Entry claim: inherit from tk.Frame
+Exit claim: building and shows the landing page, 
+updates the callback with the appropriate data when the user presses sign in or register
 """
+
 class LandingPage(tk.Frame):
 
 
@@ -73,7 +75,7 @@ class LandingPage(tk.Frame):
 
     """
     Entry claim: None
-    Exit claim: Updates the callback with the appropriate data and calls it
+    Exit claim: Updates the callback with the appropriate data and calls it function in ClientApp
     """
     def sign_in(self):
         self.callback.type = 'sign_in'
@@ -82,7 +84,7 @@ class LandingPage(tk.Frame):
 
     """
     Entry claim: None
-    Exit claim: Updates the callback with the appropriate data and calls it
+    Exit claim: Updates the callback with the appropriate data and calls it function in ClientApp
     """
     def join_now(self):
         self.callback.type = 'sign_up'

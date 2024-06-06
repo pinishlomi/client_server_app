@@ -9,9 +9,11 @@ import tkinter.messagebox as tkmb
 
 
 """
-Entry claim: 
-Exit claim: handle with register screen data and shows it. 
+Entry claim: None
+Exit claim: building and shows the Register page. 
+updates the callback with the appropriate data and type when the user submits his data.  
 """
+
 class Register():
 
 
@@ -92,7 +94,7 @@ class Register():
     Exit claim: Puts Username Eroor messagebox and Password Error messagebox
     if the username or the password doest meet the criteria. 
     if the password and the username meet the criteria, the def updates the callback with:
-    the type, right data and calls it. 
+    the type, right data and calls it function in ClientApp. 
     """
     def join_now(self):
         if not self.validate_username():
